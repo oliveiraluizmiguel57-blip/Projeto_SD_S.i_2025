@@ -11,7 +11,7 @@ module safecrack_pro (
         S0      = 5'b00001,  // Estado incial - Aguardando 1º Dígito (1 LED Verde)
         S1      = 5'b00010,  // Aguardando 2º Dígito (2 LEDs Verdes)
         S2      = 5'b00100,  // Aguardando 3º Dígito (3 LEDs Verdes)
-        ABERTO = 5'b01000,  // Cofre Aberto (Espera 5 segundos)
+        SUCESSO = 5'b01000,  // Cofre Aberto (Espera 5 segundos)
         ERRO    = 5'b10000   // Errou um dígito (Espera 3 segundos - LED Vermelho)
     } state_t;
 
