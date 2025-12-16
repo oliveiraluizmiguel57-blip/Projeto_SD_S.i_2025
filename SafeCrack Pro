@@ -1,0 +1,113 @@
+module safecrack_pro (
+    input  logic       clk,
+    input  logic       rstn,
+    input  logic [2:0] btn,        // Botões de entrada
+    output logic [2:0] leds_verde, // 3 LEDs verdes para progresso
+    output logic       led_vermelho // 1 LED vermelho para erro
+);
+
+    // Definição dos Estados 
+    typedef enum logic [4:0] {
+        S0      = 5'b00001,  // Estado incial - Aguardando 1º Dígito (1 LED Verde)
+        S1      = 5'b00010,  // Aguardando 2º Dígito (2 LEDs Verdes)
+        S2      = 5'b00100,  // Aguardando 3º Dígito (3 LEDs Verdes)
+        ABERTO = 5'b01000,  // Cofre Aberto (Espera 5 segundos)
+        ERRO    = 5'b10000   // Errou um dígito (Espera 3 segundos - LED Vermelho)
+    } state_t;
+
+    state_t state, next_state;
+
+    logic [2:0] btn_prev, btn_edge, btn_pos;
+    logic       any_btn_edge;
+
+    localparam int TIME_3S = 150_000_000; // 3 segundos para o ERRO (3x 50 milhões)
+    localparam int TIME_5S = 250_000_000; // 5 segundos para o SUCESSO. (5x 50 milhões)
+
+    logic [$clog2(TIME_5S)-1:0] delay_cnt, next_delay_cnt;
+
+     always_comb begin
+        btn_pos	= ~btn; // invert buttons to active high
+        btn_edge = btn_pos & ~btn_prev; // get 0 -> 1 edges
+        any_btn_edge = (|btn_edge); // any button edge detected
+     end 
+
+    // sequential logic
+    always_ff @(posedge clk or negedge rstn) begin
+        if (~rstn) begin
+            btn_prev  <= 3'b000;
+            delay_cnt <= 0;
+            state     <= S0;
+        end
+        else begin
+            btn_prev  <= btn_pos;
+            delay_cnt <= next_delay_cnt;
+            state     <= next_state;
+        end
+    end
+
+    // transition logic
+    always_comb begin
+        // default assignments
+        next_state     = state;
+        next_delay_cnt = delay_cnt;
+
+        case (state)
+            S0: begin 
+                if (btn_edge == 3'b001)      next_state = S1;    // button 0 pressed -> correct input
+                else if (any_btn_edge) begin  // any other invalid input -> erro
+                    next_state = ERRO;       // Vai para estado ERRO
+                    next_delay_cnt = TIME_3S; // Carrega timer de 3s
+                end
+            end
+
+            S1: begin 
+                if (btn_edge == 3'b010)      next_state = S2;   // button 1 pressed -> correct input
+                else if (any_btn_edge) begin // any other invalid input -> Erro
+                    next_state = ERRO;
+                    next_delay_cnt = TIME_3S;
+                end
+            end
+
+            S2: begin 
+                if (btn_edge == 3'b100) begin   // button 2 pressed -> correct input
+                    next_state = SUCESSO;     // Vai para estado SUCESSO
+                    next_delay_cnt = TIME_5S; // Carrega timer de 5s
+                end
+                else if (any_btn_edge) begin
+                    next_state = ERRO;
+                    next_delay_cnt = TIME_3S;
+                end
+            end
+
+            SUCESSO: begin
+                // No estado sucesso, fica aqui até o tempo acabar, depois volta pro início
+                if (delay_cnt > 0) next_delay_cnt = delay_cnt - 1;
+                else               next_state = S0; 
+            end
+
+            ERRO: begin
+                // No estadoerro, fica aqui até o tempo acabar, depois volta pro início
+                if (delay_cnt > 0) next_delay_cnt = delay_cnt - 1;
+                else               next_state = S0;
+            end
+
+            default: next_state = S0;
+        endcase
+    end
+
+    // output logic
+    always_comb begin
+        // Padrão: tudo apagado
+        leds_verde   = 3'b000;
+        led_vermelho = 1'b0;
+
+        case (state)
+            S0:      leds_verde = 3'b001; // 1 LED aceso
+            S1:      leds_verde = 3'b011; // 2 LEDs acesos
+            S2:      leds_verde = 3'b111; // 3 LEDs acesos
+            SUCESSO: leds_verde = 3'b111; // Todos LEDs verdes acesos
+            ERRO:    led_vermelho = 1'b1; // Apenas LED vermelho aceso
+        endcase
+    end
+
+endmodule
