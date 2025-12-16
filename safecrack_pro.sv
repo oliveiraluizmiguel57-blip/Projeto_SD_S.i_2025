@@ -1,8 +1,8 @@
-module safecrack_pro (
+module safecrack_fsm (
     input  logic       clk,
     input  logic       rstn,
     input  logic [2:0] btn,       
-    output logic [2:0] leds_verde, 
+    output logic [7:0] leds_verde, 
     output logic       led_vermelho 
 );
 
@@ -98,14 +98,14 @@ module safecrack_pro (
     // output logic
     always_comb begin
         // Padrão: tudo apagado
-        leds_verde   = 3'b000;
+        leds_verde   = 8'b00000000;
         led_vermelho = 1'b0;
 
         case (state)
-            S0:      leds_verde = 3'b001; // 1 LED aceso
-            S1:      leds_verde = 3'b011; // 2 LEDs acesos
-            S2:      leds_verde = 3'b111; // 3 LEDs acesos
-            SUCESSO: leds_verde = 3'b111; // Todos LEDs verdes acesos
+            S0:      leds_verde = 8'b00000001; // 1 LED aceso
+            S1:      leds_verde = 8'b00000011; // 2 LEDs acesos
+            S2:      leds_verde = 8'b00000111; // 3 LEDs acesos      
+            SUCESSO: leds_verde = 8'b11111111; // Todos LEDs verdes acesos
             ERRO:    led_vermelho = 1'b1; // Apenas LED vermelho aceso
         endcase
     end
