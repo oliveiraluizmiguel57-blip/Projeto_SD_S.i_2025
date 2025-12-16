@@ -5,5 +5,4 @@ SafeCrack FSM - FSM de um cofre digital que só é aberto quando o usuário digi
 
 ## Diagrama da Máquina de Estados (FSM)
 
-
-![alt text](image.png)
+![alt text](58c72e86-2ad5-4bed-9ecc-8767f8407e16.png)
