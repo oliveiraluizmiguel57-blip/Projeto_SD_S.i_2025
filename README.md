@@ -39,11 +39,3 @@ O sistema utiliza codificação **One-Hot** para maior confiabilidade. O fluxo d
 3.  **Estado S2:** Se o botão 1 for pressionado, avança. (3 LEDs Verdes acesos).
 4.  **Sucesso:** Se o botão 2 for pressionado, o cofre abre por 5 segundos.
 5.  **Erro:** Se qualquer botão incorreto for pressionado em qualquer etapa, o sistema bloqueia por 3 segundos (LED Vermelho aceso) e depois reinicia.
-
-## 🛠️ Detalhes da Implementação
-
-### Detecção de Borda (Edge Detection)
-O módulo não utiliza apenas o nível lógico dos botões, mas sim a detecção de borda de subida (`0 -> 1`). Isso evita que segurar um botão faça a máquina pular múltiplos estados instantaneamente.
-
-```systemverilog
-btn_edge = btn_pos & ~btn_prev; // Detecta a transição positiva
