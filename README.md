@@ -43,3 +43,14 @@ O sistema utiliza codificação **One-Hot** para maior confiabilidade. O fluxo d
 ## Diagrama de estados
 
 ![alt text](<Captura de Tela 2025-12-16 às 12.23.52-1.png>)
+
+## Detalhamento do código
+
+Foi utilizado como base o código do projeto SafeCrack no link: https://gitlab.com/-/snippets/4909655
+
+Alterações para adequação dos requisitos foram em:
+1. **Definição dos estados:** Inserimos comentários e inserimos os nomes das variáveis que indicam erro ou sucesso.
+2. **Clock:** Implementamos dois contadores de tempo para acerto ou erro, com 3 segundos no erro e 5no acerto. O código original só tinha um de 1 segundo.
+3. **transition logic:** Alteramos a lógica do anterior que resetava no erro. Nesse código, esse vai para o estado erro, onde acenderá o led por 3 segundos e retornará para o estado inicial.
+4. **Delay:** Para o momento que o sistema fica no clock até o tempo acabar, tanto o da parte de erro quanto o da parte de acerto.
+5. **Output logic:** As saídas que são os leds acesos em cada estado.
