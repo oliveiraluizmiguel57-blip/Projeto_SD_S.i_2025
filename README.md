@@ -39,3 +39,6 @@ O sistema utiliza codificação **One-Hot** para maior confiabilidade. O fluxo d
 3.  **Estado S2:** Se o botão 1 for pressionado, avança. (3 LEDs Verdes acesos).
 4.  **Sucesso:** Se o botão 2 for pressionado, o cofre abre por 5 segundos.
 5.  **Erro:** Se qualquer botão incorreto for pressionado em qualquer etapa, o sistema bloqueia por 3 segundos (LED Vermelho aceso) e depois reinicia.
+
+
+![alt text](<Captura de Tela 2025-12-16 às 12.23.52-1.png>)
