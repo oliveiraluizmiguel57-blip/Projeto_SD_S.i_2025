@@ -1,18 +1,18 @@
 module safecrack_pro (
     input  logic       clk,
     input  logic       rstn,
-    input  logic [2:0] btn,        // Botões de entrada
-    output logic [2:0] leds_verde, // 3 LEDs verdes para progresso
-    output logic       led_vermelho // 1 LED vermelho para erro
+    input  logic [2:0] btn,       
+    output logic [2:0] leds_verde, 
+    output logic       led_vermelho 
 );
 
     // Definição dos Estados 
     typedef enum logic [4:0] {
-        S0      = 5'b00001,  // Estado incial - Aguardando 1º Dígito (1 LED Verde)
-        S1      = 5'b00010,  // Aguardando 2º Dígito (2 LEDs Verdes)
-        S2      = 5'b00100,  // Aguardando 3º Dígito (3 LEDs Verdes)
+        S0      = 5'b00001,  // Estado incial - Aguardando 1º Dígito
+        S1      = 5'b00010,  // Aguardando 2º Dígito 
+        S2      = 5'b00100,  // Aguardando 3º Dígito 
         SUCESSO = 5'b01000,  // Cofre Aberto (Espera 5 segundos)
-        ERRO    = 5'b10000   // Errou um dígito (Espera 3 segundos - LED Vermelho)
+        ERRO    = 5'b10000   // Errou um dígito (Espera 3 segundos)
     } state_t;
 
     state_t state, next_state;
