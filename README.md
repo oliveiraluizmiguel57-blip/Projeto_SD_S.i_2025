@@ -7,8 +7,8 @@ O **SafeCrack Pro** é um módulo de hardware desenvolvido em **SystemVerilog** 
 * **Luiz Miguel de Oliveira Siqueira**
 * **Samuel Renan Mendes Umbelino do Monte**
 * **Vicente Ancelmo de Oliveira Morais**
-* **Lucas Mateus**
-* **Cleyton Junior**
+* **Lucas Mateus dos Santos Arruda**
+* **Cleyton Junior da Silca Cardoso**
 
 ## 📋 Visão Geral
 
