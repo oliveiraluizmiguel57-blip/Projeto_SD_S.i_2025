@@ -2,6 +2,14 @@
 
 O **SafeCrack Pro** é um módulo de hardware desenvolvido em **SystemVerilog** que simula o comportamento de um cofre eletrônico. O sistema exige uma sequência específica de entradas para desbloquear, fornecendo feedback visual através de LEDs e penalizando tentativas incorretas com um temporizador de bloqueio.
 
+## 👥 Membros do Projeto
+
+* **Luiz Miguel de Oliveira Siqueira**
+* **Samuel Renan Mendes Umbelino do Monte**
+* **Vicente Ancelmo de Oliveira Morais**
+* **Lucas Mateus**
+* **Cleyton Junior**
+
 ## 📋 Visão Geral
 
 O sistema opera como uma **Máquina de Estados Finitos (FSM)** que monitora 3 botões de entrada. O usuário deve inserir a senha correta (sequência de botões) para abrir o cofre.
